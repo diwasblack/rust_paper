@@ -131,7 +131,7 @@ compiler checks at compile time. Ownership is the key feature in rust that enabl
 guarantee memory safety while avoiding garbage collector. And, it does so without adding any extra run time cost\cite{RustOwnership}.
 
 \subsection{Ownership}
-The ownership rules that the compiler uses at compile time are as follows:
+The ownership rules that the compiler uses at compile time are as follows\cite{RustOwnership}:
 \begin{enumerate}
     \item{Each value in Rust has a variable that’s called its owner.}
     \item{There can only be one owner at a time.}
@@ -158,6 +158,53 @@ given below
 For dynamic variables such as s, assignment operation invalidates the previous
 variable so we could say that the ownership was moved from variable s to s2. Same logic is used when
 passing dynamic variable to functions as parameters.
+
+\section{Exception Handling}
+In many cases, rust will require the programmer to consider the possibility that
+errors might occur while trying to perform an operation and the actions to take
+if such errors occur. But, rust does not have Exceptions class
+like in other languages. Instead, it has the value \textit{Result$<$T, E$>$} for
+recoverable errors and the \textit{panic!} macro that stops execution
+when it encounters unrecoverable errors\cite{RustErrorHandling}.
+
+\subsection{Unrecoverable Errors}
+Rust has \textit{panic!} macro that can be used when an unrecoverable error is encountered. When
+this macro is executed, the program will print a failure message, unwind and clean up the stack,
+and then quit\cite{RustPanic}. An example use case is shown below:
+
+\begin{lstlisting}
+fn main() {
+    panic!("Unknown error occured.");
+}
+\end{lstlisting}
+
+\subsection{Recoverable Errors}
+Recoverable errors can be handled using using the \textit{Result} enumeration which is defined as:
+
+\begin{lstlisting}
+enum Result<T, E> {
+    Ok(T),
+    Err(E),
+}
+\end{lstlisting}
+
+An example of trying to open a file with error handling is given below\cite{RustResult}:
+\begin{lstlisting}
+use std::fs::File;
+
+fn main() {
+    let f = File::open("hello.txt");
+
+    let f = match f {
+        Ok(file) => file,
+        Err(error) => {
+            panic!("There was a problem opening the file: {:?}", error)
+        },
+    };
+}
+\end{lstlisting}
+The above program stores the file handle in variable f it was able to open the
+specified file and stores the error value if it was unable to open file.
 
 \bibliography{paper}
 \bibliographystyle{plain}
