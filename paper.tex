@@ -1,0 +1,130 @@
+\documentclass[12pt, titlepage]{article}
+\usepackage{cite}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{setspace}
+
+\title{\large{Research paper} on \\ \textbf{Rust}}
+\author{Diwas Sharma}
+\date{November 16, 2017}
+
+% Set line spacing to 1.5
+\onehalfspacing
+
+\usepackage[margin=1in]{geometry}
+
+\begin{document}
+
+\maketitle
+
+\section{History}
+Rust started as a side project of Mozilla employee Graydon Hoarse in 2006. Mozilla started supporting the language in
+2009 and announced it at Mozilla Annual Summit, July 2010\cite{ProjectServo}. The initial compiler for rust was written
+in OCaml. And somewhere around 2011 the compiler for rust was ported to rustc which was itself written using rust.
+
+The first stable release of rust occured in May 12, 2015\cite{AnnounceRust}. Rust is primarily supported
+by Mozilla but the team of core developers for Rust consist of non-Mozilla members as well. The
+code for rust language is open sourced and is being actively developed at \href{https://github.com/rust-lang/rust}{https://github.com/rust-lang/rust}.
+
+\section{Programming Categories}
+Rust is a multi paradigms language which supports functional and imperative programming techniques but not every concepts in object oriented languages
+can be implementation with exact same properties in rust.
+
+\subsection{Imperative language features in Rust}
+The rust language has support for variables, loops, assignments, and program states which are similar to C/C++. The variables in rust are immutable by
+default, so the programmer needs to explictily declare the mutable variable by using keyword \textit{mut}.
+
+\begin{lstlisting}
+fn main() {
+    // x is immutable
+    let x = 5;
+    // y is mutable
+    let mut y = 6;
+    println!("The value of x is: {} and y is: {}", x, y);
+}
+\end{lstlisting}
+
+\subsection{Functional language features in Rust}
+Rust has support for iterators, enums, and pattern matching which are features commonly associated with
+functional programming languages.
+
+\begin{lstlisting}
+fn main(){
+    let values = vec![1, 2, 3];
+    // Using iterator to loop through the values
+    for value in values.iter() {
+        println!("Value: {}", value);
+    }
+}
+\end{lstlisting}
+
+Apart from these, rust supports higher order functions and closures.
+\begin{lstlisting}
+fn main() {
+    // Declaration of a closure
+    let square_number = |x| x * x;
+    let result = square_number(3);
+    println!("Result: {}", result);
+}
+\end{lstlisting}
+
+\subsection{Object oriented language features in Rust}
+Rust has \textit{structs} and \textit{enums} that have the data and \textit{impl} blocks provides a way to define
+methods on those entities. When used together they are able to provide the same functionality as objects in object oriented programming.
+But they are not objects in a strict sense. Every module, types, functions, and members are
+private by default in rust. The \textit{pub} keyword can be used to define which code blocks are to be public. Thus, using this
+approach encapsulation can be implementation in a rust code. However, rust does not provide a way to define a struct that
+inherits from another struct such that it contains the fields and method of the struct that it is trying to inherit. So,
+rust does not support inheritance directly but there are solutions for cases when inheritance is desired.
+
+\section{Grammer}
+Rust's grammar is defined over Unicode codepoints, and is described by a dialect of Extended Backus-Naur Form (EBNF),
+specifically a dialect of EBNF supported by common automated LL$(k)$ parsing tools such as llgen\cite{RustLang}.
+The grammer for rust is pretty complex and is described at \href{https://doc.rust-lang.org/grammar.html}{https://doc.rust-lang.org/grammar.html}.e.g.
+
+\subsection{Lexical Structure for Comments.}
+\begin{lstlisting}
+comment : block_comment | line_comment ;
+block_comment : "/*" block_comment_body * "*/" ;
+block_comment_body : [block_comment | character] * ;
+line_comment : "//" non_eol * ;
+\end{lstlisting}
+
+\subsection{While loops}
+\begin{lstlisting}
+while_expr : [lifetime':']? "while" no_struct_literal_expr'{'block'}';
+\end{lstlisting}
+
+\subsection{For expression}
+\begin{lstlisting}
+for_expr : [lifetime':']? "for" pat "in" no_struct_literal_expr'{'block'}';
+\end{lstlisting}
+
+\section{Type System}
+Rust is a statically typed language which is strong typed\cite{RustIntro} as well. But, it does allow a convenient way to
+assign an initial value to a variable while declaring the type by offering type inference.
+
+\begin{lstlisting}
+// The type of x is inferred from the statement
+let x = 10;
+\end{lstlisting}
+
+Rust does not provide coercion(implicit type conversion) between the primitive types. But, explict type conversion can
+be done using \textit{as} keyword.
+
+\begin{lstlisting}
+fn main(){
+    let x = 65.11_f32;
+    // Cast floating point to 8 bit unsigned integer
+    let y = x as u8;
+    println!("x: {} and y: {}", x, y);
+}
+\end{lstlisting}
+
+\section{Implementation}
+The official implementation of rust is a compiled language which itself is written in rust. The rust
+language uses Semantic Versioning 2.0\cite{SemVer} to label its release. And, the latest release of rust language is 1.21.0\cite{Rust1.21}.
+
+\bibliography{paper}
+\bibliographystyle{plain}
+\end{document}
