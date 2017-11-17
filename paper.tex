@@ -125,6 +125,40 @@ fn main(){
 The official implementation of rust is a compiled language which itself is written in rust. The rust
 language uses Semantic Versioning 2.0\cite{SemVer} to label its release. And, the latest release of rust language is 1.21.0\cite{Rust1.21}.
 
+\section{Memory Management}
+Memory management in rust is done through a system of ownership with a set of rules that the
+compiler checks at compile time. Ownership is the key feature in rust that enables it to
+guarantee memory safety while avoiding garbage collector. And, it does so without adding any extra run time cost\cite{RustOwnership}.
+
+\subsection{Ownership}
+The ownership rules that the compiler uses at compile time are as follows:
+\begin{enumerate}
+    \item{Each value in Rust has a variable that’s called its owner.}
+    \item{There can only be one owner at a time.}
+    \item{When the owner goes out of scope, the value will be dropped.}
+\end{enumerate}
+
+Consider an example shown below.
+\begin{lstlisting}
+{
+    // s is valid from line below
+    let s = String::from("Hello world");
+} // this scope is now over, and s is no longer valid
+\end{lstlisting}
+
+Variable s is the owner for the value "Hello world" which is invalidated when the scope ends. Once the owner
+associated with a value is invalidated the value is dropped. Consider another example
+given below
+\begin{lstlisting}
+{
+    let s = String::from("Hello world");
+    let s2 = s; // variable s is invalidated
+}
+\end{lstlisting}
+For dynamic variables such as s, assignment operation invalidates the previous
+variable so we could say that the ownership was moved from variable s to s2. Same logic is used when
+passing dynamic variable to functions as parameters.
+
 \bibliography{paper}
 \bibliographystyle{plain}
 \end{document}
